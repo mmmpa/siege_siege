@@ -2,15 +2,21 @@
 
 SiegeSiege is siege wrapper.
 
-## Installation
+## SIEGE
 
-Add this line to your application's Gemfile:
+```
+$ siege -V
+SIEGE 3.1.4
+```
+
+## Installation
 
 ```ruby
 gem 'siege_siege'
 ```
+
 then
 
 ```bash
-bundle install
+$ bundle install
 ```
