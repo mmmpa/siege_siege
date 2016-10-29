@@ -12,5 +12,5 @@ gem 'siege_siege'
 then
 
 ```bash
-gem install siege_siege
+bundle install
 ```
