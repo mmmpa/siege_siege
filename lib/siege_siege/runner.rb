@@ -31,7 +31,40 @@ module SiegeSiege
     def run
       puts "\e[32m#{@command}\e[0m"
       _, stdout, stderr = Open3.popen3(@command)
-      Result.new(@command, @urls, stdout.read, stderr.read)
+
+      indicate
+
+      out = stdout.read
+      err = stderr.read
+
+      indicate_end
+
+      Result.new(@command, @urls, out, err)
+    ensure
+      indicate_end
+    end
+
+
+    private
+
+    def indicate
+      @indicator = Thread.start do
+        chars = %w[| / - \\]
+        i = 0
+        loop do
+          print "\e[31m#{chars[i % chars.length]}\e[0m"
+          sleep 0.1
+          i += 1
+          print "\b"
+        end
+      end
+    end
+
+    def indicate_end
+      return unless @indicator
+      Thread.kill(@indicator)
+      print "\b"
+      @indicator = nil
     end
   end
 end

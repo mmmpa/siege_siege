@@ -41,6 +41,13 @@ module SiegeSiege
     it do
       expect(command).not_to include('-A')
     end
+
+    it do
+      SiegeSiege.run(
+        time: 5,
+        url: "#{@base}/"
+      )
+    end
   end
 
   describe URL do
