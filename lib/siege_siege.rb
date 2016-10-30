@@ -1,4 +1,3 @@
-require 'siege_siege/version'
 require 'open3'
 require 'tempfile'
 require 'csv'
@@ -6,6 +5,7 @@ require 'pp'
 require 'active_support'
 require 'active_support/core_ext'
 
+require 'siege_siege/version'
 require 'siege_siege/average_log'
 require 'siege_siege/configuration'
 require 'siege_siege/line_log'

@@ -12,5 +12,10 @@ WEBrick::HTTPServer.new(
   Logger: WEBrick::Log::new("/dev/null", 7)
 ).tap do |server|
   Signal.trap(:INT) { server.shutdown }
+
+  server.mount_proc('/redirect') do |req, res|
+    res.set_redirect(WEBrick::HTTPStatus::MovedPermanently, '/')
+  end
+
   server.start
 end

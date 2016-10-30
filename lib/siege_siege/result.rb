@@ -1,14 +1,19 @@
 module SiegeSiege
   class Result
+
+
     def initialize(command, urls, raw, raw_result)
       @command = command
       @raw = raw
       @raw_result = raw_result
-      @url_map = urls.each_with_index.inject({}) do |a, (url, index)|
-        a.merge!(index => url)
-      end
 
-      #puts raw
+      offset = 0
+      @url_map = urls.each_with_index.inject({}) do |a, (url, index)|
+        a.merge!((index + offset) => url).tap do
+          # if the http method is POST, skip one step (why?)
+          offset += 1 if url.post?
+        end
+      end
     end
 
     def total_result
@@ -36,7 +41,6 @@ module SiegeSiege
           .gsub(/\e.+?m/, '')
           .gsub('[', '')
           .gsub(']', '')
-          .gsub(' ', '')
           .split("\n")
           .map { |line| LineLog.new(*line.split(',')).take_in_detail(@url_map) rescue nil }
           .compact

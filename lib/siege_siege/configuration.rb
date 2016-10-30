@@ -66,12 +66,13 @@ module SiegeSiege
     end
 
     def rc
-      RC_MAP.inject('') do |a, (key, value)|
-        inserting = @configuration[key] || value
-        if inserting
-          a << "#{key.to_s.gsub('_', '-')} = #{inserting}\n"
-        else
+      RC_MAP.inject('') do |a, (key, default)|
+        value = @configuration[key]
+        inserting = value.nil? ? default : value
+        if inserting.nil?
           a
+        else
+          a << "#{key.to_s.gsub('_', '-')} = #{inserting}\n"
         end
       end
     end

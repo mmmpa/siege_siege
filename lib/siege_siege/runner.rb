@@ -16,8 +16,10 @@ module SiegeSiege
           verbose: true,
           rc: @rc_file.path,
           csv: true,
-          display_id: true,
+          display_id: false,
           quiet: false,
+          follow_location: false,
+          timestamp: false,
           file: raw_configuration[:url] ? nil : @urls_file.path
         )
       ).tap do |conf|

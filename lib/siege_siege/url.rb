@@ -27,8 +27,12 @@ module SiegeSiege
       end
     end
 
+    def post?
+      http_method.to_s.downcase == 'post'
+    end
+
     def to_siege_url
-      if http_method && http_method.to_s.downcase == 'post'
+      if post?
         [url, 'POST', parameter_string]
       else
         url

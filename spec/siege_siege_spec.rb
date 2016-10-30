@@ -7,9 +7,13 @@ module SiegeSiege
         time: 2,
         user_agent: false,
         urls: [
-          "#{@base}/",
-          "#{@base}/not.html",
-          "#{@base}/post.html POST a=1",
+          "#{@base}/",                    # 0
+          "#{@base}/ POST a=1",           # 1
+          "#{@base}/redirect POST a=1",   # 3
+          "#{@base}/not.html",            # 4
+          "#{@base}/redirect POST a=1",   # 6
+          "#{@base}/?7",                  # 8
+          "#{@base}/redirected.html",     # 9
         ],
       )
     end
@@ -23,7 +27,7 @@ module SiegeSiege
     end
 
     it do
-      expect(result.average_log.size).to eq(3)
+      expect(result.average_log.size).to eq(7)
     end
 
     it do
@@ -31,7 +35,11 @@ module SiegeSiege
     end
 
     it do
-      expect(result.average_log.last.siege_url.http_method).to eq(:post)
+      expect(result.average_log[4].siege_url.http_method).to eq(:post)
+    end
+
+    it do
+      expect(result.average_log.last.siege_url.url).to eq("#{@base}/redirected.html")
     end
 
     it do
@@ -47,6 +55,12 @@ module SiegeSiege
         time: 5,
         url: "#{@base}/"
       )
+    end
+  end
+
+  describe Configuration do
+    it do
+      expect(Configuration.new(show_logfile: false).rc).to include('show-logfile = false')
     end
   end
 
